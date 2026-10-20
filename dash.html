@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+
+&#x20;   <h2>Contas a Pagar</h2>
+
+&#x20;   <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalNovaConta">+ Nova Conta</button>
+
+</div>
+
+
+
+<table class="table table-bordered table-hover bg-white shadow-sm">
+
+&#x20;   <thead class="table-dark">
+
+&#x20;       <tr>
+
+&#x20;           <th>Descrição</th>
+
+&#x20;           <th>Fornecedor</th>
+
+&#x20;           <th>Valor</th>
+
+&#x20;           <th>Vencimento</th>
+
+&#x20;           <th>Status</th>
+
+&#x20;           <th>Ações</th>
+
+&#x20;       </tr>
+
+&#x20;   </thead>
+
+&#x20;   <tbody>
+
+&#x20;       {% for conta in contas %}
+
+&#x20;       <tr>
+
+&#x20;           <td>{{ conta\['descricao'] }}</td>
+
+&#x20;           <td>{{ conta\['fornecedor'] }}</td>
+
+&#x20;           <td>R$ {{ "%.2f"|format(conta\['valor']) }}</td>
+
+&#x20;           <td>{{ conta\['data\_vencimento'] }}</td>
+
+&#x20;           <td>
+
+&#x20;               {% if conta\['status'] == 'PAGA' %}
+
+&#x20;                   <span class="badge bg-success">PAGA</span>
+
+&#x20;               {% elif conta\['data\_vencimento'] < hoje %}
+
+&#x20;                   <span class="badge bg-danger">VENCIDA</span>
+
+&#x20;               {% else %}
+
+&#x20;                   <span class="badge bg-warning text-dark">PENDENTE</span>
+
+&#x20;               {% endif %}
+
+&#x20;           </td>
+
+&#x20;           <td>
+
+&#x20;               {% if conta\['status'] == 'PENDENTE' %}
+
+&#x20;               <form action="/pagar/{{ conta\['id'] }}" method="POST" class="d-inline">
+
+&#x20;                   <button class="btn btn-sm btn-primary">Dar Baixa</button>
+
+&#x20;               </form>
+
+&#x20;               {% endif %}
+
+&#x20;               <form action="/excluir/{{ conta\['id'] }}" method="POST" class="d-inline">
+
+&#x20;                   <button class="btn btn-sm btn-danger">Excluir</button>
+
+&#x20;               </form>
+
+&#x20;           </td>
+
+&#x20;       </tr>
+
+&#x20;       {% else %}
+
+&#x20;       <tr><td colspan="6" class="text-center">Nenhuma conta cadastrada.</td></tr>
+
+&#x20;       {% endfor %}
+
+&#x20;   </tbody>
+
+</table>
+
+
+
+<!-- Modal Nova Conta -->
+
+<div class="modal fade" id="modalNovaConta" tabindex="-1">
+
+&#x20; <div class="modal-dialog">
+
+&#x20;   <div class="modal-content">
+
+&#x20;     <form method="POST" action="/nova\_conta">
+
+&#x20;         <div class="modal-header">
+
+&#x20;           <h5 class="modal-title">Nova Conta</h5>
+
+&#x20;           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+
+&#x20;         </div>
+
+&#x20;         <div class="modal-body">
+
+&#x20;           <div class="mb-3"><label>Descrição</label><input type="text" name="descricao" class="form-control" required></div>
+
+&#x20;           <div class="mb-3"><label>Fornecedor</label><input type="text" name="fornecedor" class="form-control" required></div>
+
+&#x20;           <div class="mb-3"><label>Valor (R$)</label><input type="number" step="0.01" name="valor" class="form-control" required></div>
+
+&#x20;           <div class="mb-3"><label>Data de Vencimento</label><input type="date" name="data\_vencimento" class="form-control" required></div>
+
+&#x20;         </div>
+
+&#x20;         <div class="modal-footer">
+
+&#x20;           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+
+&#x20;           <button type="submit" class="btn btn-primary">Salvar</button>
+
+&#x20;         </div>
+
+&#x20;     </form>
+
+&#x20;   </div>
+
+&#x20; </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+{% endblock %}
+

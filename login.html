@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="row justify-content-center mt-5">
+
+&#x20;   <div class="col-md-4">
+
+&#x20;       <div class="card shadow">
+
+&#x20;           <div class="card-body">
+
+&#x20;               <h3 class="text-center mb-4">Login do Sistema</h3>
+
+&#x20;               <form method="POST">
+
+&#x20;                   <div class="mb-3">
+
+&#x20;                       <label>E-mail</label>
+
+&#x20;                       <input type="email" name="email" class="form-control" required>
+
+&#x20;                   </div>
+
+&#x20;                   <div class="mb-3">
+
+&#x20;                       <label>Senha</label>
+
+&#x20;                       <input type="password" name="senha" class="form-control" required>
+
+&#x20;                   </div>
+
+&#x20;                   <button type="submit" class="btn btn-primary w-100">Entrar</button>
+
+&#x20;               </form>
+
+&#x20;           </div>
+
+&#x20;       </div>
+
+&#x20;   </div>
+
+</div>
+
+{% endblock %}
+
